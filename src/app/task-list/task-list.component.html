@@ -1,7 +1,14 @@
 <h2>Aircraft Maintenance Task List</h2>
 <ul>
-  <li>Task One</li>
-  <li>Task Two</li>
-  <li>Task Three</li>
-  <li>Task Four</li>
+  <li *ngFor="let task of tasks">
+    <ul>
+      <li>Item Number: {{task.itemNumber}}</li>
+      <li>Description: "{{task.description}}"</li>
+      <li>Log Date: "{{task.logDate}}"</li>
+      <li>Log Hours: {{task.logHours ? task.logHours : 'null'}}</li>
+      <li>Interval Months: {{task.intervalMonths ? task.intervalMonths : 'null'}}</li>
+      <li>Interval Hours: {{task.intervalHours ? task.intervalHours : 'null'}}</li>
+      <li>Next Due: {{task.nextDue ? "task.nextDue" : 'null'}}</li>
+    </ul>
+  </li>
 </ul>

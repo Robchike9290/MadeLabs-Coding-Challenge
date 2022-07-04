@@ -4,7 +4,7 @@ export interface Aircraft {
   currentHours: number
 }
 
-export const aircraft: Aircraft[] = [
+export const AIRCRAFT: Aircraft[] = [
   {
     aircraftId: 1,
     dailyHours: 0.7,
@@ -24,10 +24,10 @@ export interface Task {
   logHours: number | null,
   intervalMonths: number | null,
   intervalHours: number | null,
-  nextDue?: number | null
+  nextDue?: Date | null
 }
 
-export const tasks: Task[] = [
+export const TASKS: Task[] = [
   {
     itemNumber: 1,
     description: "Item 1",
