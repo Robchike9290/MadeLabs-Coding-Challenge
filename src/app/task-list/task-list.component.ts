@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Task } from '../mock-aircraft-data';
-import { TASKS } from '../mock-aircraft-data';
+import { Task, TASKS } from '../mock-aircraft-data';
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
