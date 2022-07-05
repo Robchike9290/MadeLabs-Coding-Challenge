@@ -6,3 +6,8 @@
 		{{ craft.aircraftId }}
 	</option>
 </select>
+<ul>
+  <li *ngIf="selectedAircraft">Aircraft ID: {{ aircraft[selectedAircraft - 1].aircraftId }}</li>
+  <li *ngIf="selectedAircraft">Daily Hours: {{ aircraft[selectedAircraft - 1].dailyHours }}</li>
+  <li *ngIf="selectedAircraft">Current Hours: {{ aircraft[selectedAircraft - 1].currentHours }}</li>
+</ul>
