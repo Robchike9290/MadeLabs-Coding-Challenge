@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Aircraft, AIRCRAFT } from '../mock-aircraft-data';
+import { Aircraft } from '../mock-aircraft-data';
+import { AircraftService } from '../aircraft.service';
 
 @Component({
   selector: 'app-aircraft-selection',
@@ -7,12 +8,17 @@ import { Aircraft, AIRCRAFT } from '../mock-aircraft-data';
   styleUrls: ['./aircraft-selection.component.scss']
 })
 export class AircraftSelectionComponent implements OnInit {
-  aircraft: Aircraft[] = AIRCRAFT;
+  aircraft: Aircraft[] = [];
   selectedAircraft?: number | null = 1;
 
-  constructor() { }
+  constructor(private aircraftService: AircraftService) { }
+
+  getAircraft(): void {
+    this.aircraft = this.aircraftService.getAircraft();
+  }
 
   ngOnInit(): void {
+    this.getAircraft();
   }
 
 }
