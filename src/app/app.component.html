@@ -1,3 +1,28 @@
 <h1>{{title}}</h1>
-<app-aircraft-selection></app-aircraft-selection>
+<h2>Aircraft Selection</h2>
+<label>Select an Aircraft: </label>
+<select [(ngModel)]="selectedAircraft">
+	<option [ngValue]="null" disabled>Select an Aircraft</option>
+	<option *ngFor="let craft of aircraft" [ngValue]="craft.aircraftId">
+		{{ craft.aircraftId }}
+	</option>
+</select>
+<ul>
+  <li *ngIf="selectedAircraft">Aircraft ID: {{ aircraft[selectedAircraft - 1].aircraftId }}</li>
+  <li *ngIf="selectedAircraft">Daily Hours: {{ aircraft[selectedAircraft - 1].dailyHours }}</li>
+  <li *ngIf="selectedAircraft">Current Hours: {{ aircraft[selectedAircraft - 1].currentHours }}</li>
+</ul>
 <app-update-hours></app-update-hours>
+<h2>Aircraft Maintenance Task List</h2>
+<ul>
+  <li *ngFor="let task of tasks">
+    <ul class="listNesting">Item Number: {{task.itemNumber}}
+      <li>Description: "{{task.description}}"</li>
+      <li>Log Date: "{{task.logDate}}"</li>
+      <li>Log Hours: {{task.logHours ? task.logHours : 'null'}}</li>
+      <li>Interval Months: {{task.intervalMonths ? task.intervalMonths : 'null'}}</li>
+      <li>Interval Hours: {{task.intervalHours ? task.intervalHours : 'null'}}</li>
+      <li>Next Due: {{task.nextDue ? "task.nextDue" : 'null'}}</li>
+    </ul>
+  </li>
+</ul>
