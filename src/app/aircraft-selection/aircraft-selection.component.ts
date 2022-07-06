@@ -9,7 +9,7 @@ import { AircraftService } from '../aircraft.service';
 })
 export class AircraftSelectionComponent implements OnInit {
   aircraft: Aircraft[] = [];
-  selectedAircraft?: number | null = 1;
+  selectedAircraft?: number | null = null;
 
   constructor(private aircraftService: AircraftService) { }
 
