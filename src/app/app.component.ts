@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+
 import { observable, computed, action } from 'mobx-angular';
+
 import { Aircraft } from './mock-aircraft-data';
-import { AircraftService } from './aircraft.service';
 import { Task } from './mock-aircraft-data';
+
+import { AircraftService } from './aircraft.service';
 import { TaskService } from './task.service';
 
 @Component({
@@ -10,8 +13,8 @@ import { TaskService } from './task.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
 
+export class AppComponent implements OnInit {
   aircraft: Aircraft[] = [];
   selectedAircraft: number = 1;
   tasks: Task[] = [];
@@ -24,12 +27,41 @@ export class AppComponent implements OnInit {
   @action setIntervalMonthsNextDueDate(taskNumber: number): Date | null {
     const logDate: Date | null = this.tasks[taskNumber - 1].logDate;
     const intervalMonths: number | null = this.tasks[taskNumber - 1].intervalMonths;
+
     let intervalMonthsNextDueDate: Date | null = null;
+
     if (intervalMonths) {
-      intervalMonthsNextDueDate =  new Date(logDate.setMonth(logDate.getMonth() + intervalMonths));
+      intervalMonthsNextDueDate = new Date(logDate.setMonth(logDate.getMonth() + intervalMonths));
     }
+
     return intervalMonthsNextDueDate;
   }
+
+  @action setIntervalHoursNextDueDate(taskNumber: number): Date | null {
+    const logHours: number | null = this.tasks[taskNumber - 1].logHours;
+    const intervalHours: number | null = this.tasks[taskNumber - 1].intervalHours;
+    const currentHours: number = this.aircraft[this.selectedAircraft - 1].currentHours;
+    const dailyHours: number = this.aircraft[this.selectedAircraft - 1].dailyHours;
+    const today: Date = new Date(2018, 6, 19);
+
+    let daysRemainingByHoursInterval: number | null = null;
+    let intervalHoursNextDueDate: Date | null = null;
+
+    if (logHours && intervalHours && currentHours && dailyHours) {
+      daysRemainingByHoursInterval = Math.round(((logHours + intervalHours) - currentHours) / dailyHours);
+      console.log(daysRemainingByHoursInterval);
+      console.log(today.getDate());
+      intervalHoursNextDueDate = new Date(today.setDate(today.getDate() + (daysRemainingByHoursInterval / 24)));
+    }
+
+    return intervalHoursNextDueDate;
+  }
+
+  // COMPLETE LATER (SET NEXT DUE DATE)
+  // @action setNextDueDate(taskNumber: number): Date | null {
+  //   const intervalMonthsNextDueDate = this.tasks[taskNumber - 1].intervalMonths
+  //   return
+  // }
 
   constructor(
     private aircraftService: AircraftService,
