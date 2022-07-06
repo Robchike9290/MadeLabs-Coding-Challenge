@@ -22,6 +22,7 @@
   <input type="text" id="daily-hours" placeholder="Fill me in">
   <button>Update Aircraft Daily Hours</button>
   <br>
+  <p>{{getCurrentHours()}}</p>
 </form>
 <h2>Aircraft Maintenance Task List</h2>
 <ul>
@@ -31,7 +32,7 @@
       <li>Log Date: "{{task.logDate}}"</li>
       <li>Log Hours: {{task.logHours ? task.logHours : 'null'}}</li>
       <li>Interval Months: {{task.intervalMonths ? task.intervalMonths : 'null'}}</li>
-      <li>Interval Hours: {{task.intervalHours ? task.intervalHours : 'null'}}</li>
+      <li>Interval Hours: {{setIntervalMonthsNextDueDate(task.itemNumber) ? setIntervalMonthsNextDueDate(task.itemNumber) : 'null'}}</li>
       <li>Next Due: {{task.nextDue ? "task.nextDue" : 'null'}}</li>
     </ul>
   </li>
