@@ -29,9 +29,11 @@ export class AppComponent implements OnInit {
     const intervalMonths: number | null = this.tasks[taskNumber - 1].intervalMonths;
 
     let intervalMonthsNextDueDate: Date | null = null;
+    console.log('interval months:', intervalMonths);
 
     if (intervalMonths) {
       intervalMonthsNextDueDate = new Date(logDate.setMonth(logDate.getMonth() + intervalMonths));
+      console.log('next due date, months:', intervalMonthsNextDueDate)
     }
 
     return intervalMonthsNextDueDate;
@@ -47,11 +49,16 @@ export class AppComponent implements OnInit {
     let daysRemainingByHoursInterval: number | null = null;
     let intervalHoursNextDueDate: Date | null = null;
 
+    function addDays(date: Date, days: number) {
+      var result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    }
+
     if (logHours && intervalHours && currentHours && dailyHours) {
       daysRemainingByHoursInterval = Math.round(((logHours + intervalHours) - currentHours) / dailyHours);
-      console.log(daysRemainingByHoursInterval);
-      console.log(today.getDate());
-      intervalHoursNextDueDate = new Date(today.setDate(today.getDate() + (daysRemainingByHoursInterval / 24)));
+      // console.log("days remaining by hours interval:", daysRemainingByHoursInterval);
+      intervalHoursNextDueDate = addDays(today, daysRemainingByHoursInterval);
     }
 
     return intervalHoursNextDueDate;
@@ -79,5 +86,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.getAircraft();
     this.getTasks();
+    // set data functions
   }
 }
