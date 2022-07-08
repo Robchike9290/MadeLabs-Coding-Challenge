@@ -24,10 +24,12 @@ export interface Task {
   logHours: number | null,
   intervalMonths: number | null,
   intervalHours: number | null,
+  intervalMonthsNextDueDate?: Date | null,
+  intervalHoursNextDueDate?: Date | null,
   nextDue?: Date | null
 }
 
-export const TASKS: Task[] = [
+let tasks: Task[] = [
   {
     itemNumber: 1,
     description: "Item 1",
@@ -61,3 +63,36 @@ export const TASKS: Task[] = [
     intervalHours: null
   }
 ];
+
+function addDays(date: Date, days: number) {
+  var result: Date = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+for (let i: number = 0; i < tasks.length; i++) {
+  let task: Task = tasks[i];
+  let today: Date = new Date(2018, 6, 19);
+  let currentHours: number = 550;
+  let dailyHours: number = 0.7;
+
+  let daysRemainingByHoursInterval: number | null = null;
+  let intervalHoursNextDueDate: Date | null = null;
+  let intervalMonthsNextDueDate: Date | null = null;
+
+  if (task.intervalMonths) {
+    intervalMonthsNextDueDate = new Date(task.logDate.setMonth(task.logDate.getMonth() + task.intervalMonths));
+  }
+
+  if (task.logHours && task.intervalHours && currentHours && dailyHours) {
+    daysRemainingByHoursInterval = Math.round(((task.logHours + task.intervalHours) - currentHours) / dailyHours);
+    intervalHoursNextDueDate = addDays(today, daysRemainingByHoursInterval);
+  }
+
+  console.log(i + 1, 'intervalmonths:', intervalMonthsNextDueDate);
+  tasks[i].intervalMonthsNextDueDate = intervalMonthsNextDueDate;
+  console.log(i + 1, 'intervalHours...', intervalHoursNextDueDate);
+  tasks[i].intervalHoursNextDueDate = intervalHoursNextDueDate;
+}
+
+export const TASKS: Task[] = tasks;
