@@ -124,18 +124,18 @@ export class AppComponent implements OnInit {
   }
 
   updateAircraftCurrentHours(input: string): void {
-    if (typeof Number(input) === 'number') {
+    if (typeof Number(input) === 'number' && Number(input) >= 0 && input !== 'e') {
       this.aircraft[this.selectedAircraft - 1].currentHours = Number(input);
     } else {
-      throw "Please input a number.";
+      alert("Please input a number greater than or equal to zero.");
     }
   }
 
   updateAircraftDailyHours(input: string): void {
-    if (typeof Number(input) === 'number') {
+    if (typeof Number(input) === 'number' && Number(input) >= 0 && input !== 'e') {
       this.aircraft[this.selectedAircraft - 1].dailyHours = Number(input);
     } else {
-      throw "Please input a number.";
+      alert("Please input a number greater than or equal to zero.");
     }
   }
 
