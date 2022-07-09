@@ -15,12 +15,12 @@
 <h2>Aircraft Hours Updates</h2>
 <form>
   <label>Current Hours: </label>
-  <input type="number" id="current-hours" placeholder="Fill me in" #input>
-  <button (click)="updateAircraftCurrentHours(input.value)">Update Aircraft Current Hours</button>
+  <input type="number" id="current-hours" placeholder="Fill me in" #currentHoursInput>
+  <button (click)="updateAircraftCurrentHours(currentHoursInput.value)">Update Aircraft Current Hours</button>
   <br>
   <label>Daily Hours: </label>
-  <input type="number" id="daily-hours" placeholder="Fill me in" #input>
-  <button (click)="updateAircraftDailyHours(input.value)">Update Aircraft Daily Hours</button>
+  <input type="number" id="daily-hours" placeholder="Fill me in" #dailyHoursInput>
+  <button (click)="updateAircraftDailyHours(dailyHoursInput.value)">Update Aircraft Daily Hours</button>
   <br>
 </form>
 <h2>Aircraft Maintenance Task List</h2>
