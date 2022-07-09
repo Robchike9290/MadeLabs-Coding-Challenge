@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 
 import { Aircraft } from './mock-aircraft-data';
 import { Task } from './mock-aircraft-data';
@@ -14,9 +14,10 @@ import { TaskService } from './task.service';
 
 export class AppComponent implements OnInit {
   aircraft: Aircraft[] = [];
-  selectedAircraft: number = 1;
-  tasks: Task[] = [];
   aircraftMessage: string = '';
+  selectedAircraft: number = 1;
+  sortedTasks: Task[] = [];
+  unsortedTasks: Task[] = [];
   title = 'Aircraft Maintenance Schedule Tracker';
 
   constructor(
@@ -29,10 +30,13 @@ export class AppComponent implements OnInit {
   }
 
   getTasks(): void {
-    this.tasks = this.taskService.getTasks();
+    this.unsortedTasks = this.taskService.getTasks();
   }
 
   getSelectedAircraftDueDates(): void {
+    this.sortedTasks = JSON.parse(JSON.stringify(this.unsortedTasks));
+    console.log(this.sortedTasks);
+
     function addDays(date: Date, days: number) {
       var result: Date = new Date(date);
       result.setDate(result.getDate() + days);
@@ -45,20 +49,22 @@ export class AppComponent implements OnInit {
       this.aircraftMessage = 'second aircraft selected!';
     }
 
-    for (let i: number = 0; i < this.tasks.length; i++) {
-      let task: Task = this.tasks[i];
+    for (let i: number = 0; i < this.sortedTasks.length; i++) {
+      let task = this.sortedTasks[i];
       let today: Date = new Date(2018, 6, 19);
+      let logDate = new Date(task.logDate);
       let calculationAircraft: Aircraft = this.aircraft[this.selectedAircraft - 1];
       let currentHours: number = calculationAircraft.currentHours;
       let dailyHours: number = calculationAircraft.dailyHours;
-
       let daysRemainingByHoursInterval: number | null = null;
       let intervalHoursNextDueDate: Date | null = null;
       let intervalMonthsNextDueDate: Date | null = null;
       let nextDue: Date | null = null;
 
       if (task.intervalMonths) {
-        intervalMonthsNextDueDate = new Date(task.logDate.setMonth(task.logDate.getMonth() + task.intervalMonths));
+        console.log(i, task.logDate);
+        intervalMonthsNextDueDate = new Date(logDate.setMonth(logDate.getMonth() + task.intervalMonths));
+        console.log(i, task.logDate);
       }
 
       if (task.logHours && task.intervalHours && currentHours && dailyHours) {
@@ -66,8 +72,8 @@ export class AppComponent implements OnInit {
         intervalHoursNextDueDate = addDays(today, daysRemainingByHoursInterval);
       }
 
-      this.tasks[i].intervalMonthsNextDueDate = intervalMonthsNextDueDate;
-      this.tasks[i].intervalHoursNextDueDate = intervalHoursNextDueDate;
+      this.sortedTasks[i].intervalMonthsNextDueDate = intervalMonthsNextDueDate;
+      this.sortedTasks[i].intervalHoursNextDueDate = intervalHoursNextDueDate;
 
       if (intervalHoursNextDueDate && intervalMonthsNextDueDate) {
         let intervalHoursNumber: number | null = intervalHoursNextDueDate.getTime();
@@ -79,7 +85,7 @@ export class AppComponent implements OnInit {
         nextDue = intervalMonthsNextDueDate;
       }
 
-      this.tasks[i].nextDue = nextDue;
+      this.sortedTasks[i].nextDue = nextDue;
     }
   }
 
@@ -88,8 +94,7 @@ export class AppComponent implements OnInit {
     this.getTasks();
   }
 
-  ngDoCheck(): void {
+  ngAfterContentChecked(): void {
     this.getSelectedAircraftDueDates();
-    console.log(this.tasks);
   }
 }
