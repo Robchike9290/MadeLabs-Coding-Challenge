@@ -70,40 +70,40 @@ function addDays(date: Date, days: number) {
   return result;
 }
 
-for (let i: number = 0; i < tasks.length; i++) {
-  let task: Task = tasks[i];
-  let today: Date = new Date(2018, 6, 19);
-  let currentHours: number = 550;
-  let dailyHours: number = 0.7;
+// for (let i: number = 0; i < tasks.length; i++) {
+//   let task: Task = tasks[i];
+//   let today: Date = new Date(2018, 6, 19);
+//   let currentHours: number = 550;
+//   let dailyHours: number = 0.7;
 
-  let daysRemainingByHoursInterval: number | null = null;
-  let intervalHoursNextDueDate: Date | null = null;
-  let intervalMonthsNextDueDate: Date | null = null;
-  let nextDue: Date | null = null;
+//   let daysRemainingByHoursInterval: number | null = null;
+//   let intervalHoursNextDueDate: Date | null = null;
+//   let intervalMonthsNextDueDate: Date | null = null;
+//   let nextDue: Date | null = null;
 
-  if (task.intervalMonths) {
-    intervalMonthsNextDueDate = new Date(task.logDate.setMonth(task.logDate.getMonth() + task.intervalMonths));
-  }
+//   if (task.intervalMonths) {
+//     intervalMonthsNextDueDate = new Date(task.logDate.setMonth(task.logDate.getMonth() + task.intervalMonths));
+//   }
 
-  if (task.logHours && task.intervalHours && currentHours && dailyHours) {
-    daysRemainingByHoursInterval = Math.round(((task.logHours + task.intervalHours) - currentHours) / dailyHours);
-    intervalHoursNextDueDate = addDays(today, daysRemainingByHoursInterval);
-  }
+//   if (task.logHours && task.intervalHours && currentHours && dailyHours) {
+//     daysRemainingByHoursInterval = Math.round(((task.logHours + task.intervalHours) - currentHours) / dailyHours);
+//     intervalHoursNextDueDate = addDays(today, daysRemainingByHoursInterval);
+//   }
 
-  tasks[i].intervalMonthsNextDueDate = intervalMonthsNextDueDate;
-  tasks[i].intervalHoursNextDueDate = intervalHoursNextDueDate;
+//   tasks[i].intervalMonthsNextDueDate = intervalMonthsNextDueDate;
+//   tasks[i].intervalHoursNextDueDate = intervalHoursNextDueDate;
 
-  if (intervalHoursNextDueDate && intervalMonthsNextDueDate) {
-    let intervalHoursNumber: number | null = intervalHoursNextDueDate.getTime();
-    let intervalMonthsNumber: number | null = intervalMonthsNextDueDate.getTime();
-    nextDue = intervalMonthsNumber < intervalHoursNumber ? intervalMonthsNextDueDate : intervalHoursNextDueDate;
-  } else if (intervalHoursNextDueDate) {
-    nextDue = intervalHoursNextDueDate;
-  } else if (intervalMonthsNextDueDate) {
-    nextDue = intervalMonthsNextDueDate;
-  }
+//   if (intervalHoursNextDueDate && intervalMonthsNextDueDate) {
+//     let intervalHoursNumber: number | null = intervalHoursNextDueDate.getTime();
+//     let intervalMonthsNumber: number | null = intervalMonthsNextDueDate.getTime();
+//     nextDue = intervalMonthsNumber < intervalHoursNumber ? intervalMonthsNextDueDate : intervalHoursNextDueDate;
+//   } else if (intervalHoursNextDueDate) {
+//     nextDue = intervalHoursNextDueDate;
+//   } else if (intervalMonthsNextDueDate) {
+//     nextDue = intervalMonthsNextDueDate;
+//   }
 
-  tasks[i].nextDue = nextDue;
-}
+//   tasks[i].nextDue = nextDue;
+// }
 
 export const TASKS: Task[] = tasks;

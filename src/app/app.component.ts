@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   aircraft: Aircraft[] = [];
   selectedAircraft: number = 1;
   tasks: Task[] = [];
+  aircraftMessage: string = '';
   title = 'Aircraft Maintenance Schedule Tracker';
 
   constructor(
@@ -31,8 +32,17 @@ export class AppComponent implements OnInit {
     this.tasks = this.taskService.getTasks();
   }
 
+  getSelectedAircraft(): void {
+    if (this.selectedAircraft === 1) {
+      this.aircraftMessage = 'first aircraft selected!';
+    } else if (this.selectedAircraft === 2) {
+      this.aircraftMessage = 'second aircraft selected!';
+    }
+  }
+
   ngOnInit(): void {
     this.getAircraft();
     this.getTasks();
+    this.getSelectedAircraft();
   }
 }
