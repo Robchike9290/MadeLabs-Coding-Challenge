@@ -103,10 +103,7 @@ for (let i: number = 0; i < tasks.length; i++) {
     nextDue = intervalMonthsNextDueDate;
   }
 
-  //console.log(nextDue);
-
   tasks[i].nextDue = nextDue;
-  console.log(tasks[i]);
 }
 
 export const TASKS: Task[] = tasks;
