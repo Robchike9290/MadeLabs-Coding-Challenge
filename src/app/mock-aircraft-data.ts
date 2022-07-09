@@ -20,13 +20,13 @@ export const AIRCRAFT: Aircraft[] = [
 export interface Task {
   itemNumber: number,
   description: string,
-  logDate: Date,
+  logDate: Date | string,
   logHours: number | null,
   intervalMonths: number | null,
   intervalHours: number | null,
   intervalMonthsNextDueDate?: Date | null,
   intervalHoursNextDueDate?: Date | null,
-  nextDue?: Date | null
+  nextDue?: Date | string | null
 }
 
 let tasks: Task[] = [

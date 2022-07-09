@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
 
   getSelectedAircraftDueDates(): void {
     this.sortedTasks = JSON.parse(JSON.stringify(this.unsortedTasks));
-    console.log(this.sortedTasks);
 
     function addDays(date: Date, days: number) {
       var result: Date = new Date(date);
@@ -43,28 +42,20 @@ export class AppComponent implements OnInit {
       return result;
     }
 
-    if (this.selectedAircraft === 1) {
-      this.aircraftMessage = 'first aircraft selected!';
-    } else if (this.selectedAircraft === 2) {
-      this.aircraftMessage = 'second aircraft selected!';
-    }
-
     for (let i: number = 0; i < this.sortedTasks.length; i++) {
       let task = this.sortedTasks[i];
       let today: Date = new Date(2018, 6, 19);
-      let logDate = new Date(task.logDate);
+      let logDate: Date | string = new Date(task.logDate);
       let calculationAircraft: Aircraft = this.aircraft[this.selectedAircraft - 1];
       let currentHours: number = calculationAircraft.currentHours;
       let dailyHours: number = calculationAircraft.dailyHours;
       let daysRemainingByHoursInterval: number | null = null;
       let intervalHoursNextDueDate: Date | null = null;
       let intervalMonthsNextDueDate: Date | null = null;
-      let nextDue: Date | null = null;
+      let nextDue: Date | string | null = null;
 
       if (task.intervalMonths) {
-        console.log(i, task.logDate);
         intervalMonthsNextDueDate = new Date(logDate.setMonth(logDate.getMonth() + task.intervalMonths));
-        console.log(i, task.logDate);
       }
 
       if (task.logHours && task.intervalHours && currentHours && dailyHours) {
@@ -76,16 +67,23 @@ export class AppComponent implements OnInit {
       this.sortedTasks[i].intervalHoursNextDueDate = intervalHoursNextDueDate;
 
       if (intervalHoursNextDueDate && intervalMonthsNextDueDate) {
-        let intervalHoursNumber: number | null = intervalHoursNextDueDate.getTime();
-        let intervalMonthsNumber: number | null = intervalMonthsNextDueDate.getTime();
-        nextDue = intervalMonthsNumber < intervalHoursNumber ? intervalMonthsNextDueDate : intervalHoursNextDueDate;
+        let intervalHoursNumber: number = intervalHoursNextDueDate.getTime();
+        let intervalMonthsNumber: number = intervalMonthsNextDueDate.getTime();
+
+        nextDue = intervalMonthsNumber < intervalHoursNumber
+        ?
+        intervalMonthsNextDueDate.toISOString().slice(0, -5)
+        :
+        intervalHoursNextDueDate.toISOString().slice(0, -5);
+
       } else if (intervalHoursNextDueDate) {
-        nextDue = intervalHoursNextDueDate;
+        nextDue = intervalHoursNextDueDate.toISOString().slice(0, -5);
       } else if (intervalMonthsNextDueDate) {
-        nextDue = intervalMonthsNextDueDate;
+        nextDue = intervalMonthsNextDueDate.toISOString().slice(0, -5);
       }
 
       this.sortedTasks[i].nextDue = nextDue;
+      this.sortedTasks[i].logDate = JSON.stringify(this.sortedTasks[i].logDate).slice(0, -6);
     }
   }
 
