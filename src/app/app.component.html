@@ -12,9 +12,9 @@
       </option>
     </select>
     <ul>
-      <li class="info" *ngIf="selectedAircraft">Aircraft ID: {{ aircraft[selectedAircraft - 1].aircraftId }}</li>
-      <li class="info" *ngIf="selectedAircraft">Daily Hours: {{ aircraft[selectedAircraft - 1].dailyHours }}</li>
-      <li class="info" *ngIf="selectedAircraft">Current Hours: {{ aircraft[selectedAircraft - 1].currentHours }}</li>
+      <li class="info noList" *ngIf="selectedAircraft">Aircraft ID: {{ aircraft[selectedAircraft - 1].aircraftId }}</li>
+      <li class="info noList" *ngIf="selectedAircraft">Daily Hours: {{ aircraft[selectedAircraft - 1].dailyHours }}</li>
+      <li class="info noList" *ngIf="selectedAircraft">Current Hours: {{ aircraft[selectedAircraft - 1].currentHours }}</li>
     </ul>
   </div>
 </section>
