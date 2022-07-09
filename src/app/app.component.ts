@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     this.unsortedTasks = this.taskService.getTasks();
   }
 
-  getSelectedAircraftDueDates(): void {
+  calculateSelectedAircraftDueDates(): void {
     this.sortedTasks = JSON.parse(JSON.stringify(this.unsortedTasks));
 
     function addDays(date: Date, days: number) {
@@ -72,19 +72,63 @@ export class AppComponent implements OnInit {
 
         nextDue = intervalMonthsNumber < intervalHoursNumber
         ?
-        intervalMonthsNextDueDate.toISOString().slice(0, -5)
+        intervalMonthsNextDueDate
         :
-        intervalHoursNextDueDate.toISOString().slice(0, -5);
+        intervalHoursNextDueDate;
 
       } else if (intervalHoursNextDueDate) {
-        nextDue = intervalHoursNextDueDate.toISOString().slice(0, -5);
+        nextDue = intervalHoursNextDueDate;
       } else if (intervalMonthsNextDueDate) {
-        nextDue = intervalMonthsNextDueDate.toISOString().slice(0, -5);
+        nextDue = intervalMonthsNextDueDate;
       }
 
       this.sortedTasks[i].nextDue = nextDue;
       this.sortedTasks[i].logDate = JSON.stringify(this.sortedTasks[i].logDate).slice(0, -6);
     }
+  }
+
+  sortTasksByDueDate(): void {
+    let tasksWithDueDates: Task[] = this.sortedTasks.filter((task) => {return task.nextDue !== null});
+    let tasksWithoutDueDates: Task[] = this.sortedTasks.filter((task) => {return task.nextDue === null});
+
+    if (tasksWithDueDates.length > 1) {
+      tasksWithDueDates.sort((currentTask, nextTask) => {
+        let currentTaskNumericDate: number = 0;
+        let nextTaskNumericDate: number = 0;
+
+        if (currentTask.nextDue instanceof Date) {
+          currentTaskNumericDate = currentTask.nextDue?.getTime();
+        }
+
+        if (nextTask.nextDue instanceof Date) {
+          nextTaskNumericDate = nextTask.nextDue?.getTime();
+        }
+
+        return currentTaskNumericDate - nextTaskNumericDate;
+      })
+    }
+
+    if (tasksWithoutDueDates.length > 1) {
+      tasksWithoutDueDates.sort();
+    }
+
+    this.sortedTasks = [...tasksWithDueDates, ...tasksWithoutDueDates];
+  }
+
+  stringifyDueDates(): void {
+    this.sortedTasks.forEach((task) => {
+      if (task.nextDue instanceof Date) {
+        task.nextDue = task.nextDue?.toISOString().slice(0, -5);
+      }
+    })
+  }
+
+  updateAircraftCurrentHours(input: string): void {
+    this.aircraft[this.selectedAircraft - 1].currentHours = parseInt(input);
+  }
+
+  updateAircraftDailyHours(input: string): void {
+    this.aircraft[this.selectedAircraft - 1].dailyHours = parseInt(input);
   }
 
   ngOnInit(): void {
@@ -93,6 +137,8 @@ export class AppComponent implements OnInit {
   }
 
   ngAfterContentChecked(): void {
-    this.getSelectedAircraftDueDates();
+    this.calculateSelectedAircraftDueDates();
+    this.sortTasksByDueDate();
+    this.stringifyDueDates();
   }
 }
