@@ -79,6 +79,7 @@ for (let i: number = 0; i < tasks.length; i++) {
   let daysRemainingByHoursInterval: number | null = null;
   let intervalHoursNextDueDate: Date | null = null;
   let intervalMonthsNextDueDate: Date | null = null;
+  let nextDue: Date | null = null;
 
   if (task.intervalMonths) {
     intervalMonthsNextDueDate = new Date(task.logDate.setMonth(task.logDate.getMonth() + task.intervalMonths));
@@ -89,10 +90,23 @@ for (let i: number = 0; i < tasks.length; i++) {
     intervalHoursNextDueDate = addDays(today, daysRemainingByHoursInterval);
   }
 
-  console.log(i + 1, 'intervalmonths:', intervalMonthsNextDueDate);
   tasks[i].intervalMonthsNextDueDate = intervalMonthsNextDueDate;
-  console.log(i + 1, 'intervalHours...', intervalHoursNextDueDate);
   tasks[i].intervalHoursNextDueDate = intervalHoursNextDueDate;
+
+  if (intervalHoursNextDueDate && intervalMonthsNextDueDate) {
+    let intervalHoursNumber: number | null = intervalHoursNextDueDate.getTime();
+    let intervalMonthsNumber: number | null = intervalMonthsNextDueDate.getTime();
+    nextDue = intervalMonthsNumber < intervalHoursNumber ? intervalMonthsNextDueDate : intervalHoursNextDueDate;
+  } else if (intervalHoursNextDueDate) {
+    nextDue = intervalHoursNextDueDate;
+  } else if (intervalMonthsNextDueDate) {
+    nextDue = intervalMonthsNextDueDate;
+  }
+
+  //console.log(nextDue);
+
+  tasks[i].nextDue = nextDue;
+  console.log(tasks[i]);
 }
 
 export const TASKS: Task[] = tasks;
