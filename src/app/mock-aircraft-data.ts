@@ -64,11 +64,11 @@ let tasks: Task[] = [
   }
 ];
 
-function addDays(date: Date, days: number) {
-  var result: Date = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
-}
+// function addDays(date: Date, days: number) {
+//   var result: Date = new Date(date);
+//   result.setDate(result.getDate() + days);
+//   return result;
+// }
 
 // for (let i: number = 0; i < tasks.length; i++) {
 //   let task: Task = tasks[i];
