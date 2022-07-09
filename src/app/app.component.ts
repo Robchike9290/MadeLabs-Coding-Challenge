@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
       }
 
       this.sortedTasks[i].nextDue = nextDue;
-      this.sortedTasks[i].logDate = JSON.stringify(this.sortedTasks[i].logDate).slice(0, -6);
+      this.sortedTasks[i].logDate = JSON.stringify(this.sortedTasks[i].logDate).slice(1, -6);
     }
   }
 
