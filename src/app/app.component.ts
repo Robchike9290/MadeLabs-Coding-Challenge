@@ -124,11 +124,19 @@ export class AppComponent implements OnInit {
   }
 
   updateAircraftCurrentHours(input: string): void {
-    this.aircraft[this.selectedAircraft - 1].currentHours = parseInt(input);
+    if (typeof Number(input) === 'number') {
+      this.aircraft[this.selectedAircraft - 1].currentHours = Number(input);
+    } else {
+      throw "Please input a number.";
+    }
   }
 
   updateAircraftDailyHours(input: string): void {
-    this.aircraft[this.selectedAircraft - 1].dailyHours = parseInt(input);
+    if (typeof Number(input) === 'number') {
+      this.aircraft[this.selectedAircraft - 1].dailyHours = Number(input);
+    } else {
+      throw "Please input a number.";
+    }
   }
 
   ngOnInit(): void {
