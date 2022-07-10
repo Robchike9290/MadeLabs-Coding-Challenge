@@ -132,10 +132,10 @@ export class AppComponent implements OnInit {
   }
 
   updateAircraftDailyHours(input: string): void {
-    if (typeof Number(input) === 'number' && Number(input) >= 0 && input !== 'e') {
+    if (typeof Number(input) === 'number' && Number(input) >= 0 && Number(input) <= 24 && input !== 'e') {
       this.aircraft[this.selectedAircraft - 1].dailyHours = Number(input);
     } else {
-      alert("Please input a number greater than or equal to zero.");
+      alert("Please input a number between 0 and 24.");
     }
   }
 
