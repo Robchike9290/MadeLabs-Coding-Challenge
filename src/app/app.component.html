@@ -1,3 +1,55 @@
-<h1>{{title}}</h1>
-<app-aircraft-selection></app-aircraft-selection>
-<app-update-hours></app-update-hours>
+<section>
+  <h1>{{title}}</h1>
+</section>
+<section>
+  <div>
+    <h2>Aircraft Selection</h2>
+    <label>Select an Aircraft: </label>
+    <select [(ngModel)]="selectedAircraft">
+      <option [ngValue]="null" disabled>Select an Aircraft</option>
+      <option *ngFor="let craft of aircraft" [ngValue]="craft.aircraftId">
+        {{ craft.aircraftId }}
+      </option>
+    </select>
+    <ul>
+      <li class="info noList" *ngIf="selectedAircraft">Aircraft ID: {{ aircraft[selectedAircraft - 1].aircraftId }}</li>
+      <li class="info noList" *ngIf="selectedAircraft">Daily Hours: {{ aircraft[selectedAircraft - 1].dailyHours }}</li>
+      <li class="info noList" *ngIf="selectedAircraft">Current Hours: {{ aircraft[selectedAircraft - 1].currentHours }}</li>
+    </ul>
+  </div>
+</section>
+<section>
+  <div>
+    <h2>Aircraft Hours Updates</h2>
+    <form>
+      <label>Current Hours: </label>
+      <input type="number" id="current-hours" placeholder="Fill me in" #currentHoursInput>
+      <button (click)="updateAircraftCurrentHours(currentHoursInput.value)">Update Aircraft Current Hours</button>
+      <br>
+      <label>Daily Hours: </label>
+      <input type="number" id="daily-hours" placeholder="Fill me in" #dailyHoursInput>
+      <button (click)="updateAircraftDailyHours(dailyHoursInput.value)">Update Aircraft Daily Hours</button>
+      <br>
+    </form>
+  </div>
+</section>
+<section>
+  <div>
+    <h2>Aircraft Maintenance Task List</h2>
+  </div>
+  <ul class="noList">
+    <li *ngFor="let task of sortedTasks" class="task">
+      <ul class="taskHeading">Item Number: {{task.itemNumber}}
+        <li class="info">Description: "{{task.description}}"</li>
+        <li class="info">Log Date: "{{task.logDate}}"</li>
+        <li class="info">Log Hours: {{task.logHours ? task.logHours : 'null'}}</li>
+        <li class="info">Interval Months: {{task.intervalMonths ? task.intervalMonths : 'null'}}</li>
+        <li class="info">Interval Hours: {{task.intervalHours ? task.intervalHours : 'null'}}</li>
+        <li *ngIf="task.nextDue; else nullDueDate" class="info">Next Due: "{{task.nextDue}}"</li>
+        <ng-template #nullDueDate>
+          <li class="info">Next Due: null</li>
+        </ng-template>
+      </ul>
+    </li>
+  </ul>
+</section>
