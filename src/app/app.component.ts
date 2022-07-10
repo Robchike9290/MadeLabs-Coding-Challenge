@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
 
     for (let i: number = 0; i < this.sortedTasks.length; i++) {
       let task = this.sortedTasks[i];
-      let today: Date = new Date(2018, 6, 19);
+      let today: Date = new Date(2018, 5, 19);
       let logDate: Date | string = new Date(task.logDate);
       let calculationAircraft: Aircraft = this.aircraft[this.selectedAircraft - 1];
       let currentHours: number = calculationAircraft.currentHours;
