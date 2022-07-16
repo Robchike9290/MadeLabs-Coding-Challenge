@@ -7,23 +7,25 @@ import { Task, TASKS } from './mock-aircraft-data';
 })
 
 export class DataService {
-  aircraft: Aircraft[] = [];
+  aircraft: Aircraft[] = AIRCRAFT;
   selectedAircraft = 1;
   sortedTasks: Task[] = [];
-  unsortedTasks: Task[] = [];
+  unsortedTasks: Task[] = TASKS;
 
   constructor() { }
 
   getAircraft(): Aircraft[] {
-
     return AIRCRAFT;
   }
 
-  getTasks(): Task[] {
-    return TASKS;
+  getTasks(aircraftSelection = 1): Task[] {
+    this.calculateSelectedAircraftDueDates(aircraftSelection);
+    this.sortTasksByDueDate();
+    this.stringifyDueDates();
+    return this.sortedTasks;
   }
 
-  calculateSelectedAircraftDueDates(): void {
+  calculateSelectedAircraftDueDates(aircraftSelection: number): void {
     this.sortedTasks = JSON.parse(JSON.stringify(this.unsortedTasks));
 
     function addDays(date: Date, days: number) {
@@ -36,7 +38,7 @@ export class DataService {
       let task = this.sortedTasks[i];
       let today: Date = new Date(2018, 5, 19);
       let logDate: Date | string = new Date(task.logDate);
-      let calculationAircraft: Aircraft = this.aircraft[this.selectedAircraft - 1];
+      let calculationAircraft: Aircraft = this.aircraft[aircraftSelection - 1];
       let currentHours: number = calculationAircraft.currentHours;
       let dailyHours: number = calculationAircraft.dailyHours;
       let daysRemainingByHoursInterval: number | null = null;

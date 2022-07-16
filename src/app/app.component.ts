@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
     this.aircraft = this.dataService.getAircraft();
   }
 
-  getTasks(): void {
-    this.tasks = this.dataService.getTasks();
+  getTasks(selectedAircraft: number): void {
+    this.tasks = this.dataService.getTasks(selectedAircraft);
   }
 
   updateAircraftCurrentHours(input: string): void {
@@ -47,12 +47,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAircraft();
-    this.getTasks();
+    this.getTasks(this.selectedAircraft);
   }
 
   ngAfterContentChecked(): void {
-    // this.calculateSelectedAircraftDueDates();
-    // this.sortTasksByDueDate();
-    // this.stringifyDueDates();
+    this.getAircraft();
+    this.getTasks(this.selectedAircraft);
   }
 }
