@@ -3,8 +3,7 @@ import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { Aircraft } from './mock-aircraft-data';
 import { Task } from './mock-aircraft-data';
 
-import { AircraftService } from './aircraft.service';
-import { TaskService } from './task.service';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -21,16 +20,15 @@ export class AppComponent implements OnInit {
   title = 'Aircraft Maintenance Schedule Tracker';
 
   constructor(
-    private aircraftService: AircraftService,
-    private taskService: TaskService
+    private dataService: DataService
   ) { }
 
   getAircraft(): void {
-    this.aircraft = this.aircraftService.getAircraft();
+    this.aircraft = this.dataService.getAircraft();
   }
 
   getTasks(): void {
-    this.unsortedTasks = this.taskService.getTasks();
+    this.unsortedTasks = this.dataService.getTasks();
   }
 
   calculateSelectedAircraftDueDates(): void {
