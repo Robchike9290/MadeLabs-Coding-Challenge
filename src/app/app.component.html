@@ -38,7 +38,7 @@
     <h2>Aircraft Maintenance Task List</h2>
   </div>
   <ul class="noList">
-    <li *ngFor="let task of sortedTasks" class="task">
+    <li *ngFor="let task of tasks" class="task">
       <ul class="taskHeading">Item Number: {{task.itemNumber}}
         <li class="info">Description: "{{task.description}}"</li>
         <li class="info">Log Date: "{{task.logDate}}"</li>
