@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 
-import { Aircraft } from './mock-aircraft-data';
-import { Task } from './mock-aircraft-data';
+import { Aircraft, Task } from './mock-aircraft-data';
 
 import { DataService } from './data.service';
 
